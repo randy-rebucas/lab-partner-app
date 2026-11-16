@@ -41,6 +41,9 @@ function TileCard({ t }: { t: Tile }) {
   );
 }
 
+// Tiles fill the row for however many this person's roles show (2 to 5), so no row ends in a gap.
+const TILE_COLS: Record<number, string> = { 2: 'lg:grid-cols-2', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4', 5: 'lg:grid-cols-3 xl:grid-cols-5' };
+
 function greeting(now: Date): string {
   const hour = Number(now.toLocaleString('en-US', { timeZone: 'Asia/Manila', hour: 'numeric', hour12: false })) % 24;
   return hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
@@ -121,7 +124,7 @@ export default async function TodayPage() {
       </section>
 
       {tiles.length ? (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <ul className={`grid gap-4 sm:grid-cols-2 ${TILE_COLS[tiles.length] ?? ''}`}>
           {tiles.map((t) => (
             <li key={t.label}>
               <TileCard t={t} />
