@@ -55,7 +55,8 @@ export default async function TodayPage() {
   if (hasAnyRole(r, ['admin', 'signatory'])) tiles.push({ label: 'To validate', value: validation, href: '/validation', note: 'results waiting for a signatory' });
   if (hasAnyRole(r, ['admin', 'front-desk', 'signatory']))
     tiles.push({ label: 'Deliveries needing attention', value: flagged, href: '/deliveries', note: `${retrying} retrying by themselves`, tone: 'red' });
-  const firstName = user.name.split(' ')[0];
+  // Greet by first name, not by title: "Dr. Patricia Lim" → Patricia.
+  const firstName = user.name.replace(/^(dr|dra|atty|engr|mr|mrs|ms)\.?\s+/i, '').split(' ')[0];
   return (
     <>
       <PageHeader title="Today" subtitle={`Good to see you, ${firstName}. Here is what is waiting.`} actions={<LiveRefresh renderedAt={now.toISOString()} />} />

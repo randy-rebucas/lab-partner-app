@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import JsBarcode from 'jsbarcode';
 import { Button } from '@/components/ui/Button';
+import { printPage } from '@/lib/desktop-bridge';
 
 type Label = { accessionNo: string; name: string; detail: string; test: string; collected: string; rejected: boolean };
 
@@ -30,11 +31,13 @@ export function LabelSheet({ label, copies, autoPrint }: { label: Label; copies:
   const router = useRouter();
   const [n, setN] = useState(copies);
   const printed = useRef(false);
+  const [printError, setPrintError] = useState<string | null>(null);
+  const print = () => void printPage('label').then(setPrintError);
   useEffect(() => {
     if (autoPrint && !printed.current && !label.rejected) {
       printed.current = true;
       // Let the barcode SVGs draw first.
-      requestAnimationFrame(() => window.print());
+      requestAnimationFrame(() => void printPage('label').then(setPrintError));
     }
   }, [autoPrint, label.rejected]);
 
@@ -61,10 +64,15 @@ export function LabelSheet({ label, copies, autoPrint }: { label: Label; copies:
           }}
           className="w-16 rounded-lg border border-gray-300 px-2 py-1.5 font-mono text-sm tabular-nums focus:outline-none focus:ring-2 focus:ring-brand-teal"
         />
-        <Button onClick={() => window.print()} disabled={label.rejected}>
+        <Button onClick={print} disabled={label.rejected}>
           Print
         </Button>
       </div>
+      {printError && (
+        <p role="alert" className="no-print m-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {printError}
+        </p>
+      )}
       {label.rejected ? (
         <p role="alert" className="no-print m-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           This specimen was rejected. Print the label of its recollection instead.

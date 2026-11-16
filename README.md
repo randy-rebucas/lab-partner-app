@@ -139,6 +139,17 @@ You can make the mock clinic fail on purpose:
 - **Server clock:** keep it on NTP. MyClinicSoft refuses result timestamps more than 5 minutes off.
 - **Where MyClinicSoft sends orders:** this app must be reachable at an `https://` address on the default port 443 that resolves to a public IP. MyClinicSoft refuses lab endpoints on private addresses (`checkOutboundUrl` in its `lib/lab-integration.ts`). If that MyClinicSoft sets `LAB_API_ALLOWED_HOSTS`, this app's host must be on the list. A lab app running only on a local network can't receive orders from a hosted MyClinicSoft.
 
+## Desktop app
+
+`../lab-partner-desktop` is a Windows app around this one. It adds:
+
+- tray alerts for STAT orders, critical values, results to validate and failed deliveries
+- a taskbar badge
+- `mcslab://` links
+- printing labels and reports straight to chosen printers
+
+It reads `GET /api/desktop/summary` with the signed-in session. See its README.
+
 ## Roles
 
 | Role | Can |
