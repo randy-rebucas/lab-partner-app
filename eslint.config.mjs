@@ -1,0 +1,54 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "coverage/**",
+  ]),
+  // Global rule overrides
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": "error",
+      // React Compiler rules from eslint-plugin-react-hooks 7 (eslint-config-next 16.x).
+      "react-hooks/immutability": "error",
+      "react-hooks/set-state-in-effect": "error",
+      "react-hooks/preserve-manual-memoization": "error",
+      "@next/next/no-img-element": "warn",
+      "jsx-a11y/alt-text": "warn",
+    },
+  },
+  // More lenient rules for test files
+  {
+    files: ["**/__tests__/**/*", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "warn", // Allow unused vars in tests
+    },
+  },
+  // Allow require() in models/index.ts for dynamic loading
+  {
+    files: ["models/index.ts"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  // More lenient rules for scripts (often need any for dynamic data)
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+]);
+
+export default eslintConfig;

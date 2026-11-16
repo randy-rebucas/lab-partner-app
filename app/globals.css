@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/*
+ * MyClinicSoft design tokens, copied from clinic-management/app/globals.css and DESIGN.md.
+ * The brand is fixed: change these only together with MyClinicSoft.
+ */
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* Brand palette, drawn from the BrandLogo mark */
+  --brand-teal: #0ea5a4;       /* rings, borders, icons, spinners; never behind small text */
+  --brand-teal-dark: #0a7f7e;  /* fill of text-bearing teal controls; teal text on white */
+  --brand-teal-light: #e3f6f5; /* active nav fill, icon chips, "received" badge, hover washes */
+  --brand-teal-deep: #086362;  /* hover/pressed of teal-dark; text on teal-light */
+  --brand-blue: #2563eb;       /* second chart series only; never an action colour */
+  --brand-navy: #0b2136;       /* drawer backdrop, selection tray */
+
+  /* Data visualization and state (DESIGN.md "Data Visualization") */
+  --chart-teal: #0e9594;
+  --chart-blue: #2563eb;
+  --chart-ochre: #b45309;
+  --state-pending: #d97706;
+  --state-critical: #be123c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-dark: var(--brand-teal-dark);
+  --color-brand-teal-light: var(--brand-teal-light);
+  --color-brand-teal-deep: var(--brand-teal-deep);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-navy: var(--brand-navy);
+  --color-chart-teal: var(--chart-teal);
+  --color-chart-blue: var(--chart-blue);
+  --color-chart-ochre: var(--chart-ochre);
+  --color-state-pending: var(--state-pending);
+  --color-state-critical: var(--state-critical);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--brand-teal-light);
+  color: var(--brand-navy);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* Native <dialog> backdrop: navy at 40%, as the console's drawer scrim. */
+dialog::backdrop {
+  background: rgb(11 33 54 / 0.4);
+}
+
+@keyframes mark-in {
+  from { opacity: 0; }
+}
+.motion-mark-in {
+  animation: mark-in 0.24s ease-out backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print: reports and labels print as black ink on white, no app chrome. */
+@media print {
+  body {
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
