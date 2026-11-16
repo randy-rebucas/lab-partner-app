@@ -37,6 +37,8 @@ pnpm dev --port 3100              # in a second terminal; set APP_URL=http://loc
 pnpm seed -- --email you@yourlab.ph --name "Your Name" --lab "Your Diagnostic Lab"
 ```
 
+On a fresh database you can skip `pnpm seed` and use the browser instead. Open the app and you are sent to **Set up your lab** (`/setup`), where you enter the lab’s details and create the first admin with your own password. Then set up your authenticator. In production the page asks for the `SETUP_TOKEN` from the server’s environment. The page closes for good once a lab exists.
+
 `pnpm seed` creates the lab, its first admin and five sample tests, and prints a one-time password.
 
 1. Open http://localhost:3100 and sign in with that password.
@@ -131,6 +133,7 @@ You can make the mock clinic fail on purpose:
 
 - **MongoDB:** Atlas or your own replica set. Before each deploy that adds a model or index, run `pnpm db:indexes` to see the changes and `pnpm db:indexes -- --apply` to make them. Production does not build indexes on start.
 - **Environment:** set every variable in `.env.example`. `APP_URL` must be the public `https://` address.
+- **First lab:** on an empty database, open the app and complete **Set up your lab** with the `SETUP_TOKEN` you set, or run `pnpm seed` against the production database.
 - **Cron:** call `/api/jobs/deliveries` every minute with `Authorization: Bearer $CRON_SECRET`.
   - On Vercel, add a Cron Job; it sends a GET.
   - On your own server, a system cron can send a POST: `curl -fsS -X POST -H "Authorization: Bearer $CRON_SECRET" https://lab.example.ph/api/jobs/deliveries`

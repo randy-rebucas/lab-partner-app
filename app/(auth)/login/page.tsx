@@ -1,10 +1,13 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth/session';
+import { needsSetup } from '@/lib/setup';
 import { SignInForm } from './forms';
 
 export const metadata = { title: 'Sign in' };
 
 export default async function LoginPage() {
+  // A fresh install has no lab and no one to sign in as: set it up first.
+  if (await needsSetup()) redirect('/setup');
   const session = await getSession();
   if (session?.stage === 'full') redirect('/');
   return (

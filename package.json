@@ -28,7 +28,9 @@
     "e2e:specimens": "tsx e2e/specimens.ts",
     "privacy:export": "tsx --env-file-if-exists=.env.local --conditions=react-server scripts/privacy-export.ts",
     "privacy:delete": "tsx --env-file-if-exists=.env.local --conditions=react-server scripts/privacy-delete.ts",
-    "e2e:full": "tsx e2e/full-flow.ts"
+    "e2e:full": "tsx e2e/full-flow.ts",
+    "create-user": "tsx --env-file-if-exists=.env.local --conditions=react-server scripts/create-user.ts",
+    "e2e:setup": "tsx e2e/setup.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
