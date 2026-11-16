@@ -72,6 +72,8 @@ const OrderSchema = new Schema(
 OrderSchema.index({ clinicId: 1, requestCode: 1 }, { unique: true });
 OrderSchema.index({ requestId: 1 }, { unique: true });
 OrderSchema.index({ labId: 1, status: 1, urgency: 1, receivedAt: 1 });
+// Today's charts: orders received per day and by clinic over a date range (lib/dashboard.ts).
+OrderSchema.index({ labId: 1, receivedAt: -1 });
 
 export type OrderDoc = InferSchemaType<typeof OrderSchema> & { _id: mongoose.Types.ObjectId };
 

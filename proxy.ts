@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 const SESSION_COOKIE = process.env.SESSION_COOKIE_NAME || 'lp_session';
 
 // Paths anyone may open without signing in.
-const PUBLIC_PREFIXES = ['/setup', '/login', '/verify', '/v1', '/api', '/dev', '/icon', '/apple-icon', '/opengraph-image'];
+const PUBLIC_PREFIXES = ['/setup', '/login', '/verify', '/v1', '/api', '/dev', '/icon', '/apple-icon', '/opengraph-image', '/photos'];
 
 function isPublic(pathname: string): boolean {
   return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));

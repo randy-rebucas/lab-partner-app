@@ -71,6 +71,8 @@ const ResultSchema = new Schema(
 
 ResultSchema.index({ orderId: 1, version: 1 }, { unique: true });
 ResultSchema.index({ reportSerial: 1 }, { unique: true, partialFilterExpression: { reportSerial: { $type: 'string' } } });
+// Today's charts: releases per day and turnaround over a date range (lib/dashboard.ts).
+ResultSchema.index({ labId: 1, releasedAt: -1 });
 
 export type ResultDoc = InferSchemaType<typeof ResultSchema> & { _id: mongoose.Types.ObjectId };
 

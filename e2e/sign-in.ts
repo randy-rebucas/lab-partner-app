@@ -30,7 +30,7 @@ async function main() {
     await page.waitForURL(`${BASE}/`);
 
     step('lands on Today, signed in');
-    await page.getByRole('heading', { name: 'Today' }).waitFor();
+    await page.getByRole('heading', { name: /^Good (morning|afternoon|evening), / }).waitFor();
     await page.screenshot({ path: 'e2e/.out/today.png' });
 
     console.log(`\n✓ sign-in flow works. New password for ${email}: ${newPassword}`);

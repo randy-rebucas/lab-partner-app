@@ -41,7 +41,7 @@ async function main() {
     await page.getByLabel('6-digit code').fill(await freshCode(key, 'juan'));
     await page.getByRole('button', { name: 'Turn on and sign in' }).click();
     await page.waitForURL(`${BASE}/`);
-    await page.getByText('Good to see you, Juan.').waitFor();
+    await page.getByRole('heading', { name: /^Good (morning|afternoon|evening), Juan./ }).waitFor();
 
     step('the sample tests are in the catalog, and setup is closed for good');
     await page.goto(`${BASE}/admin/catalog`);

@@ -96,6 +96,31 @@ dialog::backdrop {
   animation: mark-in 0.24s ease-out backwards;
 }
 
+/* Chart marks grow once from their baseline (DESIGN.md "Motion"): columns up, bars from the left. */
+@keyframes col-grow {
+  from { transform: scaleY(0); }
+}
+@keyframes bar-grow {
+  from { transform: scaleX(0); }
+}
+.motion-col-grow {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: col-grow 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.motion-line-in { animation: mark-in 0.4s ease-out 0.2s backwards; }
+.motion-bar-grow {
+  transform-origin: left;
+  animation: bar-grow 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-col-grow,
+  .motion-bar-grow {
+    animation: mark-in 0.2s ease-out both;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

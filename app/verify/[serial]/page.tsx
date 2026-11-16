@@ -1,5 +1,7 @@
 import { headers } from 'next/headers';
+import { ShieldAlert, ShieldCheck, ShieldX } from 'lucide-react';
 import BrandLogo from '@/components/BrandLogo';
+import { Photo } from '@/components/Photo';
 import { connectDB } from '@/lib/db';
 import { manilaDateTime } from '@/lib/time';
 import { Lab } from '@/models/Lab';
@@ -27,12 +29,20 @@ async function limited(): Promise<boolean> {
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="flex min-h-screen items-start justify-center bg-gray-50 px-4 py-16">
-      <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-6">
-        <div className="mb-5 flex items-center gap-3">
-          <BrandLogo size={32} />
-          <p className="text-base font-bold tracking-tight text-gray-900">Report check</p>
+      <div className="w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <div className="relative h-28 bg-gray-100">
+          <Photo name="verify" sizes="448px" eager />
         </div>
-        {children}
+        <div className="p-6">
+          <div className="mb-5 flex items-center gap-3">
+            <BrandLogo size={32} />
+            <div className="leading-tight">
+              <p className="text-base font-bold tracking-tight text-gray-900">Report check</p>
+              <p className="text-xs text-gray-500">Confirms a lab report is genuine</p>
+            </div>
+          </div>
+          {children}
+        </div>
       </div>
     </main>
   );
@@ -53,7 +63,10 @@ export default async function VerifyPage({ params }: { params: Promise<{ serial:
   if (!r) {
     return (
       <Shell>
-        <p className="text-sm font-semibold text-red-700">No report has this number.</p>
+        <p className="flex items-center gap-2 text-sm font-semibold text-red-700">
+          <ShieldX className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+          No report has this number.
+        </p>
         <p className="mt-1 text-sm text-gray-600">
           Check the number printed at the bottom of the report: <span className="font-mono tabular-nums">{serial || '—'}</span>
         </p>
@@ -68,7 +81,12 @@ export default async function VerifyPage({ params }: { params: Promise<{ serial:
   const replaced = newer?.status === 'released';
   return (
     <Shell>
-      <p className={`text-sm font-semibold ${replaced ? 'text-red-700' : 'text-emerald-800'}`}>
+      <p
+        className={`flex items-start gap-2 rounded-md px-3 py-2.5 text-sm font-semibold ring-1 ring-inset ${
+          replaced ? 'bg-red-50 text-red-700 ring-red-600/20' : 'bg-emerald-50 text-emerald-800 ring-emerald-600/20'
+        }`}
+      >
+        {replaced ? <ShieldAlert className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden="true" /> : <ShieldCheck className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />}
         {replaced ? `This report was replaced by a corrected version (version ${newer!.version}).` : 'This is a genuine report.'}
       </p>
       <dl className="mt-4 divide-y divide-gray-100 text-sm">

@@ -10,7 +10,7 @@ async function main() {
   try {
     step('admin sees Work and Lab setup');
     await signIn(page, 'admin@e2e.local', E2E_PASSWORD, E2E_TOTP_SECRET);
-    await page.getByRole('heading', { name: 'Today' }).waitFor();
+    await page.getByRole('heading', { name: /^Good (morning|afternoon|evening), / }).waitFor();
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     for (const label of ['Order inbox', 'Users', 'Connected clinics']) {
       if (!(await nav.getByRole('link', { name: label }).isVisible())) fail(`admin should see ${label}`);
